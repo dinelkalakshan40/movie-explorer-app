@@ -2,7 +2,7 @@
 
 const LoginPage=()=>{
     return(
-        <div></div>
+        <LoginPage/>
     )
 }
 export default LoginPage;
