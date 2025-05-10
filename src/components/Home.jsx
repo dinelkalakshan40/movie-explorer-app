@@ -7,6 +7,7 @@ import axios from "axios";
 const Home = () => {
 
     const [movies, setMovies] = useState([]);
+    const [genres,setGenres]=useState([]);
 
 
     useEffect(() => {
@@ -45,6 +46,30 @@ const Home = () => {
 
         fetchTrendingMovies();
     }, []);
+
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                const res = await axios.get("https://api.themoviedb.org/3/genre/movie/list", {
+                    params: {
+                        api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                    },
+                });
+                setGenres(res.data.genres);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchGenres();
+    }, []);
+
+    const getGenreNames = (genreIds) => {
+        return genreIds
+            .map((id) => genres.find((genre) => genre.id === id)?.name)
+            .join(", ");
+    };
+
 
 
 
@@ -103,6 +128,7 @@ const Home = () => {
                             </div>
 
                             <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
+                            <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
                         </div>
                     </div>
 
@@ -142,6 +168,7 @@ const Home = () => {
                             </div>
 
                             <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
+                            <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
                         </div>
                     </div>
                 ))}
