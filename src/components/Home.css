@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+
+}
+h1 {
+    font-size: 5rem;
+    font-family: "Anta", sans-serif;
+    font-style: normal;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #f9f9f9;
+    font-weight: 600;
+}

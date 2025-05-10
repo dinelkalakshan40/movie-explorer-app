@@ -1,31 +1,52 @@
 import "./Home.css"
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-import { FaSun, FaMoon } from "react-icons/fa";
 
 
-const Home=()=>{
-    const[darkMode,setDarkMode]=useState(false);
-    const changeDarkMode= () => setDarkMode(!darkMode);
+const Home = () => {
+
+    const [movies, setMovies] = useState([]);
+
+
+    useEffect(() => {
+        const fetchTrendingMovies = async () => {
+            try {
+                const response = await axios.get(
+                    `https://api.themoviedb.org/3/discover/movie`,
+                    {
+                        params: {
+                            api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                        },
+                    }
+                );
+                setMovies(response.data.results);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchTrendingMovies();
+    }, []);
+
 
     return (
-        <div className={darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}>
+        <div className="bg-gray-900 text-white min-h-screen">
 
-            <div className="p-4 flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Movie Explorer</h1>
-                <button onClick={changeDarkMode} className="text-xl">
-                    {darkMode ? (
-                        <FaSun className="text-yellow-400"/>
-                    ) : (
-                        <FaMoon className="text-blue-500"/>
-                    )}
-                </button>
+            <div className="p-2 flex justify-between items-center">
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-center mx-auto mt-20 mb-8">
+                    Discover Your Favorite Movies 🎬
+                </h1>
+
             </div>
 
 
-            <div className="flex justify-center mt-20 px-4">
+            <div className="flex justify-center mt-10 mb-16 px-4">
                 <div
-                    className="flex items-center w-full max-w-md bg-white dark:bg-gray-800 rounded-md shadow-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-400 transition-all duration-300 hover:shadow-lg focus-within:scale-105">
+                    className="flex items-center w-full max-w-md bg-white dark:bg-gray-800 rounded-md shadow-md
+    overflow-hidden transition-all duration-300 transform hover:shadow-lg
+    focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105"
+                >
                     <input
                         type="text"
                         placeholder="Search for a movie..."
@@ -40,23 +61,34 @@ const Home=()=>{
             </div>
 
 
-            <div className="px-4">
-                <h2 className="text-xl font-semibold mb-2">Search Results</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-
-                    <div className="cursor-pointer hover:scale-105 transform transition duration-200">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
+                {movies.map((movie) => (
+                    <div
+                        key={movie.id}
+                        className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
+                    >
                         <img
-                            src="https://image.tmdb.org/t/p/w500/sample.jpg"
-                            alt="Movie Title"
-                            className="rounded-lg shadow-md"
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            className="w-full h-72 object-cover"
                         />
-                        <div className="mt-2">
-                            <h3 className="font-semibold text-sm">Movie Title</h3>
-                            <p className="text-xs text-gray-500">2024</p>
-                            <p className="text-xs text-yellow-500">⭐ 7.8</p>
+
+                        <div className="p-4 space-y-2">
+                            <h2 className="text-lg font-semibold truncate">{movie.title}</h2>
+
+                            <div className="flex items-center space-x-2">
+                                <span
+                                    className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
+                                <span className="text-sm font-semibold text-white">
+        {movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span>
+      </span>
+                            </div>
+
+                            <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
                         </div>
                     </div>
-                </div>
+
+                ))}
             </div>
 
 
