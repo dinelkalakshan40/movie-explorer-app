@@ -8,6 +8,9 @@ const Home = () => {
 
     const [movies, setMovies] = useState([]);
     const [genres,setGenres]=useState([]);
+    const [query, setQuery] = useState("");
+    const [hasSearched, setHasSearched] = useState(false);
+    /*  const [searchMovies,setSearchMovies]=useState([]);*/
 
 
     useEffect(() => {
@@ -70,6 +73,48 @@ const Home = () => {
             .join(", ");
     };
 
+   /* const handleSearch = async () => {
+        if (!query) return;
+
+        try {
+            const res = await axios.get("https://api.themoviedb.org/3/search/movie", {
+                params: {
+                    api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                    query: query,
+                    page: 1,
+                },
+            });
+            setMovies(res.data.results);
+        } catch (err) {
+            console.error(err);
+        }
+    };*/
+
+    const handleSearch = async () => {
+        if (!query) return;
+        setHasSearched(true);
+
+        try {
+            const res = await axios.get("https://api.themoviedb.org/3/search/movie", {
+                params: {
+                    api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                    query: query,
+                },
+            });
+            setMovies(res.data.results);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    const handleInputChange = (e) => {
+        setQuery(e.target.value);
+        if (e.target.value === "") {
+            setMovies([]);
+            setHasSearched(false);
+        }
+    };
+
+
 
 
 
@@ -91,11 +136,12 @@ const Home = () => {
     focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105"
                 >
                     <input
-                        type="text"
+                        type="text" value={query}
+                        onChange={handleInputChange}
                         placeholder="Search for a movie..."
                         className="w-full px-4 py-2 text-black dark:text-white bg-transparent focus:outline-none"
                     />
-                    <button
+                    <button onClick={handleSearch}
                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 transition duration-200"
                     >
                         Search
@@ -104,8 +150,10 @@ const Home = () => {
             </div>
 
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
-                {movies.map((movie) => (
+            <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">{hasSearched && movies.length===0 ? (
+                <p className="col-span-full text-center text-gray-500">No movies found.</p>
+            ) :(
+                movies.map((movie) => (
                     <div
                         key={movie.id}
                         className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
@@ -122,9 +170,7 @@ const Home = () => {
                             <div className="flex items-center space-x-2">
                                 <span
                                     className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                <span className="text-sm font-semibold text-white">
-        {movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span>
-      </span>
+                                <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span></span>
                             </div>
 
                             <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
@@ -132,7 +178,10 @@ const Home = () => {
                         </div>
                     </div>
 
-                ))}
+                ))
+
+            )}
+
             </div>
 
 
