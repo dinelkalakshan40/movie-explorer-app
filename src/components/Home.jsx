@@ -10,7 +10,6 @@ const Home = () => {
     const [genres,setGenres]=useState([]);
     const [query, setQuery] = useState("");
     const [hasSearched, setHasSearched] = useState(false);
-    /*  const [searchMovies,setSearchMovies]=useState([]);*/
 
 
     useEffect(() => {
@@ -73,23 +72,6 @@ const Home = () => {
             .join(", ");
     };
 
-   /* const handleSearch = async () => {
-        if (!query) return;
-
-        try {
-            const res = await axios.get("https://api.themoviedb.org/3/search/movie", {
-                params: {
-                    api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
-                    query: query,
-                    page: 1,
-                },
-            });
-            setMovies(res.data.results);
-        } catch (err) {
-            console.error(err);
-        }
-    };*/
-
     const handleSearch = async () => {
         if (!query) return;
         setHasSearched(true);
@@ -109,13 +91,40 @@ const Home = () => {
     const handleInputChange = (e) => {
         setQuery(e.target.value);
         if (e.target.value === "") {
+            fetchTrendingMovies();
+            fetchMovies();
             setMovies([]);
             setHasSearched(false);
         }
     };
+    const fetchMovies = async () => {
+        try {
+            const response = await axios.get(
+                `https://api.themoviedb.org/3/discover/movie`,
+                {
+                    params: {
+                        api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                    },
+                }
+            );
+            setMovies(response.data.results);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-
-
+    const fetchTrendingMovies = async () => {
+        try {
+            const res = await axios.get("https://api.themoviedb.org/3/trending/movie/day", {
+                params: {
+                    api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                },
+            });
+            setMovies(res.data.results);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
 
     return (
@@ -149,8 +158,12 @@ const Home = () => {
                 </div>
             </div>
 
+            {hasSearched && query && movies.length > 0 && (
+                <h2 className="col-span-full text-xl font-semibold text-white px-4">Search Results</h2>
+            )}
 
-            <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">{hasSearched && movies.length===0 ? (
+
+            <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">{movies.length === 0 && query && hasSearched  ? (
                 <p className="col-span-full text-center text-gray-500">No movies found.</p>
             ) :(
                 movies.map((movie) => (
@@ -185,43 +198,40 @@ const Home = () => {
             </div>
 
 
-            <div className="px-7 mt-6 mb-4">
-                <h2 className="text-xl font-semibold mb-2">Trending Movies</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                </div>
-            </div>
+            {!(hasSearched && query) && (
+                <div className="mt-6 mb-4">
+                    <h2 className="text-xl mx-5 font-semibold mb-2">Trending Movies</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
+                        {movies.map((movie) => (
+                            <div
+                                key={movie.id}
+                                className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
+                            >
+                                <img
+                                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                    alt={movie.title}
+                                    className="w-full h-72 object-cover"
+                                />
 
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
-
-                {movies.map((movie) => (
-                    <div
-                        key={movie.id}
-                        className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
-                    >
-                        <img
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            className="w-full h-72 object-cover"
-                        />
-
-                        <div className="p-4 space-y-2">
-                            <h2 className="text-lg font-semibold truncate">{movie.title}</h2>
-
-                            <div className="flex items-center space-x-2">
-                                <span
-                                    className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                <span className="text-sm font-semibold text-white">
-                {movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span>
-              </span>
+                                <div className="p-4 space-y-2">
+                                    <h2 className="text-lg font-semibold truncate">{movie.title}</h2>
+                                    <div className="flex items-center space-x-2">
+                                        <span
+                                            className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
+                                        <span className="text-sm font-semibold text-white">
+              {movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span>
+            </span>
+                                    </div>
+                                    <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
+                                    <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
+                                </div>
                             </div>
-
-                            <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
-                            <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
-                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
+
+            )}
+
         </div>
     )
 }
