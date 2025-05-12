@@ -139,33 +139,54 @@ const Home = () => {
 
 
             <div className="flex justify-center mt-10 mb-16 px-4">
-                <div
-                    className="flex items-center w-full max-w-md bg-white dark:bg-gray-800 rounded-md shadow-md
+                <div className="flex flex-col sm:flex-row items-center w-3/6 max-w-3xl bg-white dark:bg-gray-800 rounded-md shadow-md
     overflow-hidden transition-all duration-300 transform hover:shadow-lg
-    focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105"
-                >
+    focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105 p-2 gap-2 sm:gap-4 mt-10 mb-16 px-4">
+
+                    {/* Input */}
                     <input
-                        type="text" value={query}
+                        type="text"
+                        value={query}
                         onChange={handleInputChange}
                         placeholder="Search for a movie..."
-                        className="w-full px-4 py-2 text-black dark:text-white bg-transparent focus:outline-none"
+                        className="flex-grow px-4 py-2 text-black dark:text-white bg-transparent focus:outline-none w-full sm:w-auto"
                     />
-                    <button onClick={handleSearch}
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 transition duration-200"
+
+                    {/* Genre Select */}
+                    <select
+                        /*value={selectedGenre}
+                        onChange={handleGenreChange}*/
+                        className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-black dark:text-white focus:outline-none w-full sm:w-auto"
+                    >
+                        <option value="">All Genres</option>
+                        {genres.map((genre) => (
+                            <option key={genre.id} value={genre.id}>
+                                {genre.name}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* Search Button */}
+                    <button
+                        onClick={handleSearch}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-200 w-full sm:w-auto"
                     >
                         Search
                     </button>
                 </div>
+
             </div>
+
 
             {hasSearched && query && movies.length > 0 && (
                 <h2 className="col-span-full text-xl font-semibold text-white px-4">Search Results</h2>
             )}
 
 
-            <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">{movies.length === 0 && query && hasSearched  ? (
+            <div
+                className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">{movies.length === 0 && query && hasSearched ? (
                 <p className="col-span-full text-center text-gray-500">No movies found.</p>
-            ) :(
+            ) : (
                 movies.map((movie) => (
                     <div
                         key={movie.id}
@@ -183,7 +204,8 @@ const Home = () => {
                             <div className="flex items-center space-x-2">
                                 <span
                                     className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100"></span></span>
+                                <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)}
+                                    <span className="text-yellow-100"></span></span>
                             </div>
 
                             <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
@@ -215,7 +237,9 @@ const Home = () => {
                                     <div className="flex items-center space-x-2">
                                         <span
                                             className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                        <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100"></span></span>
+                                        <span
+                                            className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)}
+                                            <span className="text-yellow-100"></span></span>
                                     </div>
                                     <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
                                     <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
