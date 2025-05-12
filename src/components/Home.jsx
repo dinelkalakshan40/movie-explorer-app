@@ -223,7 +223,7 @@ const Home = () => {
                 movies.map((movie) => (
                     <div
                         key={movie.id} onClick={() => handleMovieClick(movie.id)}
-                        className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
+                        className="bg-white dark:bg-gray-800 text-white cursor-pointer  rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
                     >
                         <img
                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -257,7 +257,7 @@ const Home = () => {
                         {movies.map((movie) => (
                             <div
                                 key={movie.id} onClick={() => handleMovieClick(movie.id)}
-                                className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
+                                className="bg-white dark:bg-gray-800 text-white cursor-pointer rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
                             >
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
