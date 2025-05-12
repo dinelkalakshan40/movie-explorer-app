@@ -4,20 +4,25 @@ A responsive movie explorer web application built with **React**, **Tailwind CSS
 
 ## 🚀 Features
 
-- 🔍 Search movies with real-time suggestions
-- 🌟 View trending movies
-- 🧩 Genre-based information display
-- 📜 Infinite scroll support for search results
+- 🔍 **Search** for movies with real-time results 
+- 🌟 View **Trending Movies** fetched from TMDb
+- 🧩 Display **Genre-based** details for each movie
+- 🎥 View detailed **Movie Info** including title, description, release year, IMDb rating, and genres
+- 👤 **User Authentication** with Register & Login functionality
+- 💾 **Persist user data** in localStorage
+- 🌐 **Responsive Design** for mobile, tablet, and desktop
 
 ---
 
 ## 🔧 Tech Stack
 
-- React
-- Tailwind CSS
-- Axios
-- TMDb API
-- Vite (for fast dev server)
+- ⚛️ React
+- 💨 Tailwind CSS
+- ⚡ Vite (for fast development build)
+- 🔁 Axios (API calls)
+- 🎬 TMDb API
+- 🧭 React Router (for navigation)
+- 🌐 localStorage (for saving user data)  )
 
 ---
 
@@ -27,3 +32,5 @@ A responsive movie explorer web application built with **React**, **Tailwind CSS
 git clone https://github.com/yourusername/movie-explorer.git
 cd movie-explorer
 npm install
+npm run dev
+
