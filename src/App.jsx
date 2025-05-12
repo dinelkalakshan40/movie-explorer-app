@@ -1,22 +1,22 @@
 import './App.css'
-import LoginForm from "./components/LoginForm.jsx";
-import SignUpForm from "./components/SignUpForm.jsx";
 import {Routes,Route} from "react-router-dom";
 import React from "react";
+import MovieDetailsPage from "./pages/MovieDetailsPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import Home from "./components/Home.jsx"
 
 function App() {
 
-
   return (
         <Routes>
-            <Route path="/" element={<LoginForm/>}/>
-            <Route path="/login" element={<LoginForm/>}/>
-            <Route path="/register" element={<SignUpForm/>}/>
-            <Route path="/home" element={<Home/>}/>
+            <Route path="/" element={<LoginPage/>}/>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/register" element={<SignUpPage/>}/>
+            <Route path="/home" element={<HomePage/>}/>
+            <Route path="/movie/:id" element={<MovieDetailsPage/>}/>
         </Routes>
-  )
+  );
 }
 
 export default App

@@ -7,8 +7,6 @@ A responsive movie explorer web application built with **React**, **Tailwind CSS
 - 🔍 Search movies with real-time suggestions
 - 🌟 View trending movies
 - 🧩 Genre-based information display
-- 🌙 Dark mode ready
-- 💾 Local state management with Context API
 - 📜 Infinite scroll support for search results
 
 ---

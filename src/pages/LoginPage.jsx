@@ -1,8 +1,9 @@
+import LoginForm from "../components/LoginForm.jsx";
 
 
 const LoginPage=()=>{
     return(
-        <LoginPage/>
+        <LoginForm/>
     )
 }
 export default LoginPage;

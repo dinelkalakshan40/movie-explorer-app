@@ -1,6 +1,7 @@
 import "./Home.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -11,6 +12,8 @@ const Home = () => {
     const [query, setQuery] = useState("");
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedGenre, setSelectedGenre] = useState('');
+
+    const navigate =useNavigate();
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -152,6 +155,10 @@ const Home = () => {
         }
     };
 
+    const handleMovieClick = (movieId) => {
+        navigate(`/movie/${movieId}`);
+    };
+
 
     return (
         <div className="bg-gray-900 text-white min-h-screen">
@@ -164,7 +171,7 @@ const Home = () => {
             </div>
 
 
-            <div className="flex justify-center mt-10 mb-16 px-4">
+            <div className="flex justify-center mt-0 mb-11 px-4">
                 <div className="flex flex-col sm:flex-row items-center w-3/6 max-w-3xl bg-white dark:bg-gray-800 rounded-md shadow-md
     overflow-hidden transition-all duration-300 transform hover:shadow-lg
     focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105 p-2 gap-2 sm:gap-4 mt-10 mb-16 px-4">
@@ -215,7 +222,7 @@ const Home = () => {
             ) : (
                 movies.map((movie) => (
                     <div
-                        key={movie.id}
+                        key={movie.id} onClick={() => handleMovieClick(movie.id)}
                         className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
                     >
                         <img
@@ -249,7 +256,7 @@ const Home = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
                         {movies.map((movie) => (
                             <div
-                                key={movie.id}
+                                key={movie.id} onClick={() => handleMovieClick(movie.id)}
                                 className="bg-white dark:bg-gray-800 text-white rounded-xl overflow-hidden shadow-md transition-transform hover:scale-105 hover:shadow-xl hover:-translate-y-1 duration-300"
                             >
                                 <img
