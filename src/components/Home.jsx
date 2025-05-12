@@ -183,18 +183,15 @@ const Home = () => {
                             <div className="flex items-center space-x-2">
                                 <span
                                     className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span></span>
+                                <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100"></span></span>
                             </div>
 
                             <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
                             <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
                         </div>
                     </div>
-
                 ))
-
             )}
-
             </div>
 
 
@@ -218,9 +215,7 @@ const Home = () => {
                                     <div className="flex items-center space-x-2">
                                         <span
                                             className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded">IMDb</span>
-                                        <span className="text-sm font-semibold text-white">
-              {movie.vote_average?.toFixed(1)} <span className="text-yellow-100">⭐</span>
-            </span>
+                                        <span className="text-sm font-semibold text-white">{movie.vote_average?.toFixed(1)} <span className="text-yellow-100"></span></span>
                                     </div>
                                     <p className="text-xs text-gray-400">Year: {movie.release_date?.slice(0, 4)}</p>
                                     <p className="text-xs text-gray-400">Genres: {getGenreNames(movie.genre_ids)}</p>
@@ -229,9 +224,7 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-
             )}
-
         </div>
     )
 }
