@@ -10,7 +10,7 @@ const Home = () => {
     const [genres,setGenres]=useState([]);
     const [query, setQuery] = useState("");
     const [hasSearched, setHasSearched] = useState(false);
-
+    const [selectedGenre, setSelectedGenre] = useState('');
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -97,6 +97,32 @@ const Home = () => {
             setHasSearched(false);
         }
     };
+    useEffect(() => {
+        const fetchMoviesByGenre = async () => {
+            try {
+                const res = await axios.get(
+                    selectedGenre
+                        ? "https://api.themoviedb.org/3/discover/movie"
+                        : "https://api.themoviedb.org/3/movie/popular",
+                    {
+                        params: {
+                            api_key: "2d2cc07d66d8e55602a8506cadaf90ec",
+                            ...(selectedGenre && { with_genres: selectedGenre }),
+                        },
+                    }
+                );
+                setMovies(res.data.results);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchMoviesByGenre();
+    }, [selectedGenre]);
+
+    const handleGenreChange=(event)=>{
+        setSelectedGenre(event.target.value)
+    }
     const fetchMovies = async () => {
         try {
             const response = await axios.get(
@@ -154,8 +180,8 @@ const Home = () => {
 
                     {/* Genre Select */}
                     <select
-                        /*value={selectedGenre}
-                        onChange={handleGenreChange}*/
+                        value={selectedGenre}
+                        onChange={handleGenreChange}
                         className="px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-black dark:text-white focus:outline-none w-full sm:w-auto"
                     >
                         <option value="">All Genres</option>
