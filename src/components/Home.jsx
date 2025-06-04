@@ -163,7 +163,7 @@ const Home = () => {
 
             <div className="p-2 flex justify-between items-center">
                 <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-center mx-auto mt-20 mb-8">
-                    Discover Your Favorite Movies 🎬
+                    Discover Your Favorite Movies
                 </h1>
 
             </div>
